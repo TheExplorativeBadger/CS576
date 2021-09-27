@@ -1,4 +1,4 @@
-import DirectedGraph
+from . import DirectedGraph
 
 class AdjacencyListDirectedGraph(DirectedGraph):
     def __init__(self, num_vertices):

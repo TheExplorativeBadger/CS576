@@ -1,4 +1,4 @@
-import stringMethods
+from . import stringMethods
 
 def lacI_bound(lactose, lacI):
     return (lacI and not lactose)

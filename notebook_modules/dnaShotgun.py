@@ -1,5 +1,5 @@
 import random
-import dnaBasics
+from . import dnaBasics
 
 def kmer_spectrum(dna_sequence, k):
     """Gives the k-mer spectrum of a DNA sequence.
