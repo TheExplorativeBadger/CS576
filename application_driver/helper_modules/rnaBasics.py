@@ -26,3 +26,27 @@ def codons(rna):
 
 def translate_codon(rna_codon):
     return genetic_code[rna_codon]
+
+def translate_rna_fragment(rna):
+    rnaTranslations = []
+    for i in range(int(len(rna) / 3)):
+        curCodon = rna[3*i:3*i + 3]
+        rnaTranslations.append(translate_codon(curCodon)) 
+    return ''.join(rnaTranslations)
+
+def translate_rna(rna):
+    START_CODON = "AUG"
+    startIndex = rna.find(START_CODON)
+    framedRNA = rna[startIndex:]
+    proteinChain = []
+    counter = 0
+    continueLooping = 1
+    while continueLooping:
+        currentAmino = translate_codon(framedRNA[3*counter : 3*counter + 3])
+        if (currentAmino == "*"):
+            continueLooping = 0
+        else:
+            proteinChain.append(currentAmino)
+            counter += 1
+
+    return ''.join(proteinChain)

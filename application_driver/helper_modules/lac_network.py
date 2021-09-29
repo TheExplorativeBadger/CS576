@@ -1,4 +1,4 @@
-from . import stringMethods
+from application_driver.helper_modules import stringMethods
 
 def lacI_bound(lactose, lacI):
     return (lacI and not lactose)
