@@ -11,6 +11,15 @@ class ApplicationDriver:
     def __init__(self):
         self._state = 'ACTIVE'
 
+    def getTestString(self):
+        return 'Hello from Application Driver'
+
+    def getTestStringFromDD(self):
+        return self._DataStructureDriver.getTestString()
+    
+    def getTestStringFromTD(self):
+        return self._TaskDriver.getTestString()
+
     def greedyHamiltonianPathAssembly(self, reads, min_overlap):
 
         """

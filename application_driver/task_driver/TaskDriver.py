@@ -9,13 +9,16 @@ class TaskDriver():
     def __init__(self):
         self._state = 'ACTIVE'
 
+    def getTestString(self):
+        return 'Hello from Task Driver'
+
     def execute(self, applicationType, dataStructure, metadata = None):
         if (applicationType == self.GREEDY_HAMILTONIAN_PATH):
             return self._executeGreedyHamiltonianPathTasks(dataStructure)
         elif (applicationType == self.VARIANT_IDENTIFICATION):
             return self._executeVariantIdentificationTasks(dataStructure, metadata)
         else:
-            return "INVALID_APPLICATION_TYPE"
+            return 'INVALID_APPLICATION_TYPE'
 
     def _executeGreedyHamiltonianPathTasks(self, dataStructure):
         greedyHamiltonianPathTasks = GreedyHamiltonianPathTasks()

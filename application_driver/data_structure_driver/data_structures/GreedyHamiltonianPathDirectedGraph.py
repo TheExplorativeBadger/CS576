@@ -12,7 +12,7 @@ class GreedyHamiltonianPathDirectedGraph(DirectedGraph):
         edgeQueue = self._createEdgeQueue(reads, min_overlap)
         self._buildSelfFromEdgeQueue(edgeQueue)
 
-    def _createEdgeQueue(reads, min_overlap):
+    def _createEdgeQueue(self, reads, min_overlap):
         unsorted_edges_list = []
         for sourceRead in reads:
             for destinationRead in reads:
@@ -37,4 +37,7 @@ class GreedyHamiltonianPathDirectedGraph(DirectedGraph):
             self.graph[sourceKey].addChildEdge(edge)
             self.graph[destinationKey].addParentEdge(edge)
             if self.isCyclic():
+                print('Removing Edge From ', sourceKey, ' To ', destinationKey)
                 self.removeEdge(sourceKey, destinationKey)
+            else:
+                print('Adding Edge From ', sourceKey, ' To ', destinationKey)

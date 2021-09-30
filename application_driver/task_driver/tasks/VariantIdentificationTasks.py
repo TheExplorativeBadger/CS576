@@ -39,8 +39,10 @@ class VariantIdentificationTasks:
         return responseIndex
 
     def _formatFinalResponseObject(self, responseObject, counter):
-        finalResponseObject = {}
-        for index in range(counter + 1):
+        finalResponseObject = {
+            'MAXIMUM_MATCHES': responseObject['MAXIMUM_MATCHES']
+        }
+        for index in range(counter):
             curIndexVariant = responseObject[index]['variant']
             curIndexMatches = responseObject[index]['matches']
 

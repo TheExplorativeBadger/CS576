@@ -21,7 +21,7 @@ class DirectedGraph:
                 for vertexIndex in range(1, numberVertices + 1):
                     self.vertexKeys.append(vertexIndex)
 
-        self.numberVertices = len(self.vertexLabels)
+        self.numberVertices = len(self.vertexKeys)
         graph = defaultdict(self.default_vertex_value)
         for vertexKey in self.vertexKeys:
             newVertex = DirectedGraphVertex(vertexKey)
@@ -80,12 +80,12 @@ class DirectedGraph:
                 edgeList.append(childEdge)
         return edgeList
 
-
     def getConnectedComponents(self):
         responseComponentList = []
         visited = [False] * self.numberVertices
         for vertexIndex in range(self.numberVertices):
             if not visited[vertexIndex]:
+                print("Building connected component starting at index: ", vertexIndex)
                 responseComponentList.append(self._buildConnectedComponent(vertexIndex, visited))
         return responseComponentList
 
@@ -107,16 +107,18 @@ class DirectedGraph:
         
         if (connectedComponentStartVertexIndex > -1):
 
+            print("Found CC Start Vertex: ", connectedComponentStartVertexIndex)
             curConnectedComponentList = []
             continueLooping = True
             curVertexIndex = connectedComponentStartVertexIndex
             while continueLooping:
                 curVertexKey = self.vertexKeys[curVertexIndex]
-                curConnectedComponentList.append(curVertexKey)
-                visited[curVertexIndex] = True
-
+                if (not visited[curVertexIndex]):
+                    curConnectedComponentList.append(curVertexKey)
+                    visited[curVertexIndex] = True
+                print("Current Node Value: ", curVertexKey)
                 curVertexChildEdgeSet = self.getEdgesFromSource(curVertexKey) 
-
+                print("Current Node Child Edge Set: ", curVertexChildEdgeSet)
                 if (len(curVertexChildEdgeSet) < 1):
                     continueLooping = False
                 else:

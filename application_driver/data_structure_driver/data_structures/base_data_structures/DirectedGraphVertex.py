@@ -53,9 +53,9 @@ class DirectedGraphVertex:
     def removeChildEdge(self, destinationKey, weight = None):
         try:
             for edge in self.childEdges:
-                if edge.getSourceKey() == destinationKey:
+                if edge.getDestinationKey() == destinationKey:
                     if weight == None:
-                        self.parentEdges.remove(edge)
+                        self.childEdges.remove(edge)
                         self.numberChildEdges -= 1
                         break
                     else:
