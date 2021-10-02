@@ -319,3 +319,56 @@ def greedy_assemble(reads, min_overlap=0):
 #     print("Final Contigs List: ", finalContigsList)
 
     return finalContigsList
+
+
+import fasta
+
+unknownVariantFileName = 'sarscov2_reads.fasta'
+unknownVariantReads = fasta.read_sequences_from_fasta_file(unknownVariantFileName)
+knownVariantsFileName = 'sarscov2_variant_genomes.fasta'
+knownVariantsFullReads = fasta.read_sequences_from_fasta_file(knownVariantsFileName)
+
+unkownVariantReadsList = []
+for read in unknownVariantReads:
+    unkownVariantReadsList.append(read[1]) 
+
+# NOTE: This will take a few minutes to run since it goes through all overlap values in {1, 29}
+# Change the range below in 'overlapRange' to adjust the number of runs, they're all the same anyway
+
+overlapRange = range(1,30)
+strandMatches = [0] * len(knownVariantsFullReads)
+
+for overlapMinimum in overlapRange:
+    curOverlapContigList = greedy_assemble(unkownVariantReadsList, overlapMinimum)
+    
+    counter = 0
+    for variant in knownVariantsFullReads:
+        curVariantName = variant[0]
+        curVariantSequence = variant[1]
+        
+        if (shortestSuperstring.overlap_length(curOverlapContigList[0], curVariantSequence) == len(curVariantSequence)):
+            print("Overlap minimum: ", overlapMinimum)
+            print("Variant Name: ", curVariantName)
+            strandMatches[counter] += 1
+            break
+        
+        counter += 1
+        
+maxMatches = len(overlapRange)     
+print()
+print("Final Results:")
+print("----------------------")
+print("Number of Overlap Values Run: ", maxMatches)
+print()
+print()
+index = 0
+for variant in knownVariantsFullReads:
+    curVariantName = variant[0]
+    curVariantSequence = variant[1]
+    
+    print()
+    print("Variant Name: ", curVariantName)
+    print("Number of Matches: ", strandMatches[index])
+    
+    index += 1      
+print("----------------------")
