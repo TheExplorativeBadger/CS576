@@ -10,7 +10,7 @@ class GreedyHamiltonianPathTasks():
 
     def _findGraphContigs(self, greedyHamiltonianGraph):
         connectedReadComponentList = greedyHamiltonianGraph.getConnectedComponents()
-        print(connectedReadComponentList)
+        # print(connectedReadComponentList)
         responseContigsList = []
         for component in connectedReadComponentList:
             curContig = shortestSuperstring.merge_ordered_reads(component)

@@ -85,7 +85,7 @@ class DirectedGraph:
         visited = [False] * self.numberVertices
         for vertexIndex in range(self.numberVertices):
             if not visited[vertexIndex]:
-                print("Building connected component starting at index: ", vertexIndex)
+                # print("Building connected component starting at index: ", vertexIndex)
                 responseComponentList.append(self._buildConnectedComponent(vertexIndex, visited))
         return responseComponentList
 
@@ -107,7 +107,7 @@ class DirectedGraph:
         
         if (connectedComponentStartVertexIndex > -1):
 
-            print("Found CC Start Vertex: ", connectedComponentStartVertexIndex)
+            # print("Found CC Start Vertex: ", connectedComponentStartVertexIndex)
             curConnectedComponentList = []
             continueLooping = True
             curVertexIndex = connectedComponentStartVertexIndex
@@ -116,9 +116,9 @@ class DirectedGraph:
                 if (not visited[curVertexIndex]):
                     curConnectedComponentList.append(curVertexKey)
                     visited[curVertexIndex] = True
-                print("Current Node Value: ", curVertexKey)
+                # print("Current Node Value: ", curVertexKey)
                 curVertexChildEdgeSet = self.getEdgesFromSource(curVertexKey) 
-                print("Current Node Child Edge Set: ", curVertexChildEdgeSet)
+                # print("Current Node Child Edge Set: ", curVertexChildEdgeSet)
                 if (len(curVertexChildEdgeSet) < 1):
                     continueLooping = False
                 else:

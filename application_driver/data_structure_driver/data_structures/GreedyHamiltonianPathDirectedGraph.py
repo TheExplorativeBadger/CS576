@@ -37,7 +37,5 @@ class GreedyHamiltonianPathDirectedGraph(DirectedGraph):
             self.graph[sourceKey].addChildEdge(edge)
             self.graph[destinationKey].addParentEdge(edge)
             if self.isCyclic():
-                print('Removing Edge From ', sourceKey, ' To ', destinationKey)
+                # print('Removing Edge From ', sourceKey, ' To ', destinationKey)
                 self.removeEdge(sourceKey, destinationKey)
-            else:
-                print('Adding Edge From ', sourceKey, ' To ', destinationKey)
