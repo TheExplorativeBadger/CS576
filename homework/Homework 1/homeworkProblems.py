@@ -40,5 +40,15 @@ def greedy_assemble(reads, min_overlap=0):
 
     return MainApplicationDriver.greedyHamiltonianPathAssembly(reads, min_overlap)
 
-def strain_variant_identification_matching(unknownVariantFilePath, knownVariantsFilePath, overlapMaximum):
-    return MainApplicationDriver.strainVariantIdentificationMatching(unknownVariantFilePath, knownVariantsFilePath, range(1, overlapMaximum))
+def strain_variant_identification_matching(unknownVariantFilePath, knownVariantsFilePath, overlapRangeMin, overlapRangeMax):
+    overlapRange = range(overlapRangeMin, (overlapRangeMax + 1))
+    return MainApplicationDriver.strainVariantIdentificationMatching(unknownVariantFilePath, knownVariantsFilePath, overlapRange)
+
+def problem2Execute():
+    unknownVariantFileName = 'sarscov2_reads.fasta'
+    knownVariantsFileName = 'sarscov2_variant_genomes.fasta'
+    overlapRangeMinimum = 1
+    overlapRangeMaximum = 29
+
+    problem2Results = strain_variant_identification_matching(unknownVariantFileName, knownVariantsFileName, overlapRangeMinimum, overlapRangeMaximum)
+    print(problem2Results)
