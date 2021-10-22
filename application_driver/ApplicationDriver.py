@@ -115,3 +115,80 @@ class ApplicationDriver:
             'known_variant_labels': knownVariantLabels
         }
         return self._TaskDriver.execute(taskType, UnknownContigsLists, metadata)
+
+    def readToGenomeAlignmentWithSkipsDynamicProgramming(self, readSequence, genomeSequence, substitutionMatrix, spaceScore, skipIntervals, skipScore):
+        
+        '''
+            HW 2, PROBLEM 1: Dynamic Programming Algorithm for Read-to-Genome Alignment with Skips.
+            
+            INTRODUCTION:
+            Finding an optimal read-to-genome alignment with skips and a linear gap penalty function can be solved using a few 
+            modifications to the standard Needleman–Wunsch global alignment algorithm. We are given the following as inputs:
+
+                xx : a read sequence
+                yy : a genome sequence
+                SS : a substitution matrix
+                ss : space score
+                RR : a set of intervals, each represented as a pair  (start_position,end_position)(start_position,end_position),
+                     that can be "skipped" in the genome (positions use 1-based indexing).
+                rr : skip score
+
+            RECURRENCE:
+            The dynamic programming recurrence for this task is:
+
+            M(i,j)=max{ M(i−1,j−1)+S(xi,yj), M(i−1,j)+s, M(i,j−1)+s, max(k,ℓ)∈R:ℓ=jM(i,k−1)+r
+            
+            where the  maxmax  in the fourth case (the "skip" case) is taken over all skip intervals in  RR  that have end position 
+            equal to  jj . This fourth case is not considered for positions in the genome that are not the end of any skip interval in  RR .
+
+            INITIALIZATION:
+            The initialization procedure is the same as for Needleman–Wunsch except that the first row is set to all zeros 
+            (this effectively allows for a gap before the read sequence,  xx , to have zero cost).
+
+            ∀j≥0,M(0,j)=0∀j≥0,M(0,j)=0 
+            ∀i>0,M(i,0)=s×i∀i>0,M(i,0)=s×i
+
+            TRACEBACK:
+            The traceback procedure for semi-global alignment is slightly different from that of global alignment. Traceback starts at 
+            the cell with the maximum value in the last row (instead of the lower right corner) and stops when a cell is reached in the 
+            first row (the convention used here is that  xx  indexes the rows and  yy  indexes the columns). Such a traceback path 
+            corresponds to an alignment of the entirety of the read,  xx , and a substring of the genome,  yy . Below is a sketch of what
+             a traceback looks like for this task.
+
+            TASK:
+            Implement the dynamic programming algorithm described above as a function align_read_to_genome_with_skips below, that takes as 
+            input a read sequence, x, a genome sequence, y, a substitution matrix, a space score, a skip score, and a list of intervals in 
+            the genome that may be "skipped."
+
+            Your function should output a tuple of three elements:
+
+            1. an optimal alignment (with '=' denoting skips and '-' denoting spaces)
+            2. the score of the optimal alignment
+            3. the start position of the given alignment within the genome (i.e., the position of the aligned genomic substring within the genome).
+
+            Your implementation must use an efficient (polynomial-time) dynamic programming algorithm (i.e., either top-down or bottom-up).
+
+            TIE-BREAKING:
+            In the case that there are multiple optimal alignments, during the traceback, if there are ties for which case of the recurrence 
+            gives the maximum, use the case that traces back to a cell with coordinates that are lexicographically largest. For example, if 
+            a cell has traceback pointers to cells  (i,j)(i,j) , and  (k,l)(k,l) , traceback to  (i,j)(i,j)  if  (i,j)>(k,l)(i,j)>(k,l)  and 
+            to  (k,l)(k,l)  if  (k,l)>(i,j)(k,l)>(i,j) .
+    
+            Similarly, if there are multiple cells in the last row that have the maximum value, choose the cell with coordinates  (i,j)(i,j)  
+            that are lexicographically largest.
+
+            ASSUMPTIONS:
+            You may assume that the lengths of all skip intervals are greater than one.
+        '''
+
+        taskType = 'READ_TO_GENOME_DYNAMIC_ALIGNMENT_SKIPS'
+        data = {
+            'read_sequence': readSequence,
+            'genome_sequence': genomeSequence,
+            'substitution_matrix': substitutionMatrix,
+            'skip_intervals': skipIntervals,
+            'space_score': spaceScore,
+            'skip_score': skipScore
+        }
+        dataStructure = self._DataStructureDriver.buildApplicationDataStructure(taskType, data)
+        return self._TaskDriver.execute(taskType, dataStructure)
