@@ -1,4 +1,5 @@
 from application_driver.data_structure_driver.data_structures.GreedyHamiltonianPathDirectedGraph import GreedyHamiltonianPathDirectedGraph
+from application_driver.data_structure_driver.data_structures.ReadToGenomeDynamicAlignmentMatrix import ReadToGenomeDynamicAlignmentMatrix
 
 class DataStructureDriver():
 
@@ -25,5 +26,14 @@ class DataStructureDriver():
         return GreedyHamiltonianPathDirectedGraph(reads, min_overlap)
 
     def _buildReadToGenomeDynamicAlignmentMatrix(self, sourceData):
-        
-        return
+        read_sequence = sourceData['read_sequence']
+        genome_sequence = sourceData['genome_sequence']
+
+        metadata = {
+            'substitution_matrix': sourceData['substitution_matrix'],
+            'skip_intervals': sourceData['skip_intervals'],
+            'space_score': sourceData['space_score'],
+            'skip_score': sourceData['skip_score']
+        }
+
+        return ReadToGenomeDynamicAlignmentMatrix(read_sequence, genome_sequence, metadata)
