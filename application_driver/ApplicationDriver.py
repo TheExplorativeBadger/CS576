@@ -125,13 +125,13 @@ class ApplicationDriver:
             Finding an optimal read-to-genome alignment with skips and a linear gap penalty function can be solved using a few 
             modifications to the standard Needleman–Wunsch global alignment algorithm. We are given the following as inputs:
 
-                xx : a read sequence
-                yy : a genome sequence
-                SS : a substitution matrix
-                ss : space score
-                RR : a set of intervals, each represented as a pair  (start_position,end_position)(start_position,end_position),
+                x : a read sequence
+                y : a genome sequence
+                S : a substitution matrix
+                s : space score
+                R : a set of intervals, each represented as a pair  (start_position,end_position)(start_position,end_position),
                      that can be "skipped" in the genome (positions use 1-based indexing).
-                rr : skip score
+                r : skip score
 
             RECURRENCE:
             The dynamic programming recurrence for this task is:

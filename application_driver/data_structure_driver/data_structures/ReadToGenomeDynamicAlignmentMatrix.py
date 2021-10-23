@@ -11,7 +11,7 @@ class ReadToGenomeDynamicAlignmentMatrix(SequenceAlignment2DMatrix):
             ∀ i > 0, M(i,0) = s × i
             ∀ j ≥ 0, M(0,j) = 0 
         '''
-        
+
         self.tracebackPointers = [ [ [ None ] ] * self.numColumns for i in range(self.numRows)]
         space_score = metadata['space_score']
         for i in range(1, self.numRows):
@@ -94,3 +94,15 @@ class ReadToGenomeDynamicAlignmentMatrix(SequenceAlignment2DMatrix):
 
     def getTracebackPointerMatrix(self):
         return self.tracebackPointers
+
+    def getNumberRows(self):
+        return self.numRows
+
+    def getRowSequence(self):
+        return self.rowSequence
+
+    def getNumberColumns(self):
+        return self.numColumns
+
+    def getColumnSequence(self):
+        return self.columnSequence
