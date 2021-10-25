@@ -7,7 +7,7 @@ class ReadToGenomeDynamicAlignmentTasks():
         startPosition = self._findTracebackStartIndex(readToGenomeDynamicAlignmentMatrix)
         return self._tracebackToOriginColumnFromStartIndex(readToGenomeDynamicAlignmentMatrix, startPosition)
 
-    def _findTracebackStartIndex(self, readToGenomeDynamicAlignmentMatrix)
+    def _findTracebackStartIndex(self, readToGenomeDynamicAlignmentMatrix):
         scoreMatrix = readToGenomeDynamicAlignmentMatrix.getScoreMatrix()
         finalRowIndex = readToGenomeDynamicAlignmentMatrix.getNumberRows
         
@@ -28,7 +28,7 @@ class ReadToGenomeDynamicAlignmentTasks():
         
         return highestLexicographicalIndex
 
-    def _tracebackToOriginColumnFromStartIndex(self, readToGenomeDynamicAlignmentMatrix, startPosition)
+    def _tracebackToOriginColumnFromStartIndex(self, readToGenomeDynamicAlignmentMatrix, startPosition):
         scoreMatrix = readToGenomeDynamicAlignmentMatrix.getScoreMatrix()
         tracebackPointerMatrix = readToGenomeDynamicAlignmentMatrix.getTracebackPointerMatrix()
         finalScore = scoreMatrix[startPosition[0]][startPosition[1]]
@@ -51,7 +51,7 @@ class ReadToGenomeDynamicAlignmentTasks():
                     if position > nextPosition:
                         nextPosition = position
 
-            if currentRowIndex - nextPosition[0] == 1
+            if currentRowIndex - nextPosition[0] == 1:
                 if currentColumnIndex - nextPosition[1] == 1:
                     readTracebackString = readTracebackString + readString[currentRowIndex-1]
                     genomeTracebackString = genomeTracebackString + genomeString[currentColumnIndex-1]
