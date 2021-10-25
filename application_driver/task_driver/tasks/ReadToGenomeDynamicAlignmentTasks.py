@@ -67,7 +67,7 @@ class ReadToGenomeDynamicAlignmentTasks():
                 else:
                     numberSkipCharacters = currentColumnIndex - nextPosition
                     readTracebackString = readTracebackString + ('=' * numberSkipCharacters)
-                    genomeTracebackString = genomeTracebackString + genomeString[nextPosition:currentColumnIndex]
+                    genomeTracebackString = genomeTracebackString + genomeString[nextPosition-1:currentColumnIndex]
             
             currentRowIndex = nextPosition[0]
             currentColumnIndex = nextPosition[1]
