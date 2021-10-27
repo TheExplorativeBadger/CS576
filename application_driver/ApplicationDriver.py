@@ -195,6 +195,14 @@ class ApplicationDriver:
         return self._TaskDriver.execute(taskType, dataStructure)
     
     def identifySubgenomicRNAVariants(self, readsFile, genomeFile, subMatrix, spaceScore, skipIntervals, skipScore):
+        '''
+            HW 2, Problem 2: SIdentifying SARS-CoV-2 subgenomic RNAs from reads (10 POINTS)
+            Use your align_read_to_genome_with_skips function to align each of the reads to the genome (provided in sarscov2_genome.fasta), with the set of skip intervals specified in the file sarscov2_skips.txt.
+            Use the resulting alignments to identify the sgRNA corresponding to each read (hint: use the length of the skipped region in the alignment).
+            Count the number of reads corresponding to each sgRNA
+            Identify the most abundant sgRNA based on these reads.
+        '''
+        
         readsFileContents = self._FileUtils.readFastaFile(readsFile)
         genomeFileContents = self._FileUtils.readFastaFile(genomeFile)
         genomeName = genomeFileContents[0][0]
