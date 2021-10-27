@@ -6,7 +6,6 @@ class SequenceAlignment2DMatrix:
         self.numRows = len(sequenceOne) + 1
         self.numColumns = len(sequenceTwo) + 1
         self.matrix = [[None] * self.numColumns for i in range(self.numRows)]
-
         self._build(metadata)
 
     def _build(self, metadata = None):

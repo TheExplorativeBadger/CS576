@@ -1,12 +1,14 @@
 from application_driver.task_driver.tasks.VariantIdentificationTasks import VariantIdentificationTasks
 from application_driver.task_driver.tasks.GreedyHamiltonianPathTasks import GreedyHamiltonianPathTasks
 from application_driver.task_driver.tasks.ReadToGenomeDynamicAlignmentTasks import ReadToGenomeDynamicAlignmentTasks
+from application_driver.task_driver.tasks.SubgenomicRNAVariantIdentificationTasks import SubgenomicRNAVariantIdentificationTasks
 
 class TaskDriver():
 
     GREEDY_HAMILTONIAN_PATH = 'GREEDY_HAMILTONIAN_PATH'
     VARIANT_IDENTIFICATION = 'VARIANT_IDENTIFICATION'
     READ_TO_GENOME_DYNAMIC_ALIGNMENT_SKIPS = 'READ_TO_GENOME_DYNAMIC_ALIGNMENT_SKIPS'
+    SUBGENOMIC_RNA_VARIANT_IDENTIFICATION = 'SUBGENOMIC_RNA_VARIANT_IDENTIFICATION'
 
     def __init__(self):
         self._state = 'ACTIVE'
@@ -21,6 +23,8 @@ class TaskDriver():
             return self._executeVariantIdentificationTasks(dataStructure, metadata)
         elif (applicationType == self.READ_TO_GENOME_DYNAMIC_ALIGNMENT_SKIPS):
             return self._executeReadToGenomeDynamicAlignmentTasks(dataStructure, metadata)
+        elif (applicationType == self.SUBGENOMIC_RNA_VARIANT_IDENTIFICATION):
+            return self._executeSubgenomicRNAVariantIdentificationTasks(dataStructure, metadata)
         else:
             return 'INVALID_APPLICATION_TYPE'
 
@@ -34,4 +38,8 @@ class TaskDriver():
 
     def _executeReadToGenomeDynamicAlignmentTasks(self, dataStructure, metadata = None):
         readToGenomeDynamicAlignmentTasks = ReadToGenomeDynamicAlignmentTasks()
-        return readToGenomeDynamicAlignmentTasks.execute(dataStructure)
+        return readToGenomeDynamicAlignmentTasks.execute(dataStructure, metadata)
+
+    def _executeSubgenomicRNAVariantIdentificationTasks(self, dataStructure, metadata = None):
+        subgenomicRNAVariantIdentificationTasks = SubgenomicRNAVariantIdentificationTasks()
+        return subgenomicRNAVariantIdentificationTasks.execute(dataStructure, metadata)

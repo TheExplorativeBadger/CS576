@@ -11,15 +11,17 @@ class ReadToGenomeDynamicAlignmentMatrix(SequenceAlignment2DMatrix):
             ∀ i > 0, M(i,0) = s × i
             ∀ j ≥ 0, M(0,j) = 0 
         '''
-
-        self.tracebackPointers = [ [ [ None ] ] * self.numColumns for i in range(self.numRows)]
+        
+        self.tracebackPointers = [[[]] * self.numColumns for i in range(self.numRows)]
         space_score = metadata['space_score']
+  
         for i in range(1, self.numRows):
             self.matrix[i][0] = i * space_score
-            self.tracebackPointers[i][0] = [tuple(i-1, 0)]
+            self.tracebackPointers[i][0] = [(i-1, 0)]
         for j in range(self.numColumns):
             self.matrix[0][j] = 0
-            self.tracebackPointers[0][j] = [tuple(0, j-1)]
+        
+        self.tracebackPointers[0][0] = []
 
     def _recur(self, metadata = None):
         
@@ -40,11 +42,14 @@ class ReadToGenomeDynamicAlignmentMatrix(SequenceAlignment2DMatrix):
             This fourth case is not considered for positions in the genome that 
             are not the end of any skip interval in R .
         '''
-
+        
         substitution_matrix = metadata['substitution_matrix']
         space_score = metadata['space_score']
         skip_score = metadata['skip_score']
         skip_intervals = metadata['skip_intervals']
+        
+        # print("STARTING RECURSION")
+        # print("========================")
 
         for i in range(1, self.numRows):
             rowCharacter = self.rowSequence[i-1]
@@ -65,29 +70,44 @@ class ReadToGenomeDynamicAlignmentMatrix(SequenceAlignment2DMatrix):
                         if curScore > maxSkipIntervalScore:
                             maxSkipIntervalScore = curScore
                             maxSkipIntervalIndex = curIndex
+                        elif curScore == maxSkipIntervalScore:
+                            if curIndex > maxSkipIntervalIndex:
+                                maxSkipIntervalIndex = curIndex
 
                 maximumValue = auntValue
-                tracebackPositionList = [tuple(i-1, j-1)]
+                tracebackPositionList = [(i-1, j-1)]
 
                 if parentValue > maximumValue:
                     maximumValue = parentValue
-                    traceBackPositionList = [tuple(i-1, j)]
+                    tracebackPositionList = [(i-1, j)]
                 elif parentValue == maximumValue:
-                    tracebackPositionList.append(tuple(i-1, j))
+                    tracebackPositionList.append((i-1, j))
 
                 if siblingValue > maximumValue:
                     maximumValue = siblingValue
-                    traceBackPositionList = [tuple(i, j-1)]
+                    tracebackPositionList = [(i, j-1)]
                 elif siblingValue == maximumValue:
-                    tracebackPositionList.append(tuple(i, j-1))
+                    tracebackPositionList.append((i, j-1))
 
                 if maxSkipIntervalScore > maximumValue:
                     maximumValue = maxSkipIntervalScore
-                    traceBackPositionList = [tuple(i, maxSkipIntervalIndex)]
+                    tracebackPositionList = [(i, maxSkipIntervalIndex)]
                 elif maxSkipIntervalScore == maximumValue:
-                    tracebackPositionList.append(tupule(i, maxSkipIntervalIndex))
+                    tracebackPositionList.append((i, maxSkipIntervalIndex))
 
+                self.matrix[i][j] = maximumValue
                 self.tracebackPointers[i][j] = tracebackPositionList
+                
+                # print("I: ", i)
+                # print("J: ", j)
+                # print("PARENT VALUE: ", parentValue)
+                # print("SIBLING VALUE: ", siblingValue)
+                # print("AUNT VALUE: ", auntValue)
+                # print("MAXIMUM VALUE: ", maximumValue)
+                # print("Traceback Pointer List: ", tracebackPositionList)
+                # print()
+                # print()
+                
 
     def getScoreMatrix(self):
         return self.matrix

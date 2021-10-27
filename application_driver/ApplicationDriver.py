@@ -1,6 +1,7 @@
 from application_driver.data_structure_driver.DataStructureDriver import DataStructureDriver
 from application_driver.task_driver.TaskDriver import TaskDriver
 from application_driver.file_utils.FileUtils import FileUtils
+import collections
 
 class ApplicationDriver:
 
@@ -192,3 +193,34 @@ class ApplicationDriver:
         }
         dataStructure = self._DataStructureDriver.buildApplicationDataStructure(taskType, data)
         return self._TaskDriver.execute(taskType, dataStructure)
+    
+    def identifySubgenomicRNAVariants(self, readsFile, genomeFile, subMatrix, spaceScore, skipIntervals, skipScore):
+        readsFileContents = self._FileUtils.readFastaFile(readsFile)
+        genomeFileContents = self._FileUtils.readFastaFile(genomeFile)
+        genomeName = genomeFileContents[0][0]
+        genomeSequence = genomeFileContents[0][1]
+        
+        skipIntervalList = []
+        for key in skipIntervals:
+            curSkipInterval = skipIntervals[key]
+            skipIntervalList.append(curSkipInterval)
+
+        skipIntervalLengthsDict = collections.defaultdict()
+        for key in skipIntervals:
+            curSkipInterval = skipIntervals[key]
+            skipIntervalLengthsDict[key] = (curSkipInterval[1] - curSkipInterval[0]) + 1
+
+        alignmentDict = collections.defaultdict()
+        for readIndex in range(len(readsFileContents)):
+            curRead = readsFileContents[readIndex]
+
+            curReadName = curRead[0]
+            curReadSequence = curRead[1]
+
+            alignmentDict[curReadName] = self.readToGenomeAlignmentWithSkipsDynamicProgramming(curReadSequence, genomeSequence, subMatrix, spaceScore, skipIntervalList, skipScore)
+
+        taskType = 'SUBGENOMIC_RNA_VARIANT_IDENTIFICATION'
+        metadata = {
+            'variant_length_dict': skipIntervalLengthsDict
+        }
+        return self._TaskDriver.execute(taskType, alignmentDict, metadata)
